@@ -6,9 +6,9 @@ var server = http.createServer(function(request, response) {
     response.writeHead(404);
     response.end();
 });
-
-server.listen(8080, function() {
-    console.log((new Date()) + ' Server is listening on port 8080');
+const port = process.env.PORT || 8080
+server.listen(port, function() {
+    console.log((new Date()) + ' Server is listening on port '+port);
 });
 
 wsServer = new WebSocketServer({
@@ -34,7 +34,7 @@ wsServer.on('request', function(request) {
 
         if (message.type === 'utf8') {
             var data = JSON.parse(message.utf8Data);
-            var user = data.user;
+            if(data) var user = data.user;
             if(user)
             {
                 if(users.includes(user))
